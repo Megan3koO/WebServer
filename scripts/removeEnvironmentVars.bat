@@ -1,0 +1,3 @@
+@echo off
+set MORGUE_USERNAME=
+set MORGUE_PASSWORD=

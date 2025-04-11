@@ -3,7 +3,6 @@ const PORT = process.env.PORT || 80;
 
 //GET API
 app.use("/", require("./apis/home"))
-app.use("/", require("./apis/test"))
 app.use("/", require("./apis/backtrace"))
 
 app.listen()
