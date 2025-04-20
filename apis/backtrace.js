@@ -16,7 +16,7 @@ const spawn = require('child_process').spawn;
 
 const regex = RegExp('[a-zA-Z]+');
 
-const PROJECT = 'gameloft/Apex';
+const PROJECT = 'PROJECT_NAME';
 
 function execute(command, callback){
     exec(command, function(error, stdout, stderr){callback(error, stdout, stderr)});
@@ -119,53 +119,5 @@ router.get("/backtrace", async (req, res, next) =>{
 
 }
 );
-
-router.get("/backtrace/test", async (req, res, next) => 
-{
-    const Confluence = require("confluence-api");
-    var config = 
-    {
-        /*
-        username: 
-        password: 
-        baseUrl:
-        */ 
-    };
-
-    var confluence = new Confluence(config);
-
-    var page = await confluence.getContentByPageTitle("GLSAII", "BACKTRACETEST", (err, data) => {
-        let dataobj = data['results'][0]; 
-
-        
-        //confluence.putContent('GLSAII', '727661229'/*TEST page*/, 5 /*should increment on new update*/, 'BACKTRACETEST', dataobj['body']['storage']['value'], (err, res) =>
-        //{
-        //    confluence.createAttachment("GLSAII", '727661229', "D:\\APEX\\WebServer\\backtrace_callstacks\\c313c20.txt", (err, res) => {
-       //         console.log(res);
-        //    });
-        //    console.log(res);
-        //} );
-        const root = parse(dataobj['body']['storage']['value']);
-        const test = root.querySelectorAll(".structured-macro");
-        console.log(test)
-        //res.send(dataobj['body']['storage']['value']);
-        res.send(dataobj)
-    });
-    //res.send("Fuck");
-});
-
-router.get("/backtrace/test1", (req, res, next) =>
-{
-
-
-    var confluence = new Confluence(config);
-    //confluence.createAttachment("GLSAII", '727661229', "D:\\APEX\\WebServer\\backtrace_callstacks\\0d8fcf9.txt", (err, ress) => {
-    //    res.send(ress);
-    //});
-    confluence.getAttachments('GLSAII', '727662665', (err, ress) =>
-    {
-        res.send(ress);
-    });
-})
 
 module.exports=router
