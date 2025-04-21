@@ -1,28 +1,33 @@
 from subprocess import * 
-from CredentialManager import Decrypt
+from credential import CredentialManager
 import os
 
-script_dir = os.path.dirname(os.path.abspath(__file__))
-os.chdir(script_dir)
-cwd = os.getcwd()
+def main():
+    cm = CredentialManager()
 
-with open(os.path.join(cwd, 'credentials.txt'), 'r') as f:
-    data = f.readlines()
-    f.close()
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    os.chdir(script_dir)
+    cwd = os.getcwd()
 
-username = data[0].strip()
-password = data[1].strip()
+    with open(os.path.join(cwd, 'credentials.txt'), 'r') as f:
+        data = f.readlines()
+        f.close()
 
-#should decrypt the credentials
-decrypted_password = Decrypt(password)
+    username = data[0].strip()
+    password = data[1].strip()
 
-filePath = os.path.join(cwd, 'loginBacktrace.bat')
-p = Popen([filePath, username, decrypted_password], stdin=PIPE, stdout=PIPE, stderr=PIPE, text=True)
-out, err = p.communicate()
-print(out)
-if err:
-    print(err)
+    #should decrypt the credentials
+    decrypted_password = cm.Decrypt(password)
 
-p = Popen([os.path.join(cwd, 'removeEnvironmentVars.bat')], shell=True)
-p.communicate()
+    filePath = os.path.join(cwd, 'loginBacktrace.bat')
+    p = Popen([filePath, username, decrypted_password], stdin=PIPE, stdout=PIPE, stderr=PIPE, text=True)
+    out, err = p.communicate()
+    print(out)
+    if err:
+        print(err)
 
+    p = Popen([os.path.join(cwd, 'removeEnvironmentVars.bat')], shell=True)
+    p.communicate()
+
+if __name__ == "__main__":
+    main()
