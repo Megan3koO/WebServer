@@ -7,7 +7,7 @@ import os
 import base64
 
 class CredentialManager:
-    ErrorCode = {"SUCCESS" : 0, "FAILED" : -1}
+    ErrorCode = {"SUCCESS" : 0, "FAILED_TO_GENERATE_KEY" : -1, "UNSUPPORTED_ENCRYTION_METHOD" : -2}
 
     def __init__(self):
         # Set up file path
@@ -83,6 +83,7 @@ class CredentialManager:
         error = 0
         if type == 'rsa':
             error = self._GenerateRSAKey()
-        
+        else: #no valid encryption method
+            error = self.ErrorCode["UNSUPPORTED_ENCRYTION_METHOD"]
         return error
             
